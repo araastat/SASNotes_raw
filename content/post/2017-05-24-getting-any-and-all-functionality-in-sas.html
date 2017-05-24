@@ -1,0 +1,35 @@
+---
+title: Getting `any` and `all` functionality in SAS
+author: Abhijit
+date: '2017-05-24'
+slug: getting-any-and-all-functionality-in-sas
+categories:
+  - SAS
+  - R
+tags: []
+---
+
+
+
+<div id="get-the-functionality-of-any-and-allfrom-r-in-sas" class="section level2">
+<h2>Get the functionality of <code>any</code> and <code>all</code>(from R) in SAS</h2>
+<p>One way of doing this within <code>PROC SQL</code> is to use the <code>min</code> and <code>max</code> functions:</p>
+<pre class="sas"><code>PROC SQL;
+  SELECT    sex, min(age &lt; 18) as allMinors
+  FROM      sashelp.classes
+  GROUP BY  sex;
+  
+  SELECT    sex, max(height &gt;= 6*12) as someBBallHope
+  FROM      sashelp.classes
+  GROUP BY  sex;
+QUIT;</code></pre>
+<p>would correspond to</p>
+<pre class="r"><code>library(tidyverse)
+classes %&gt;% 
+  group_by(sex) %&gt;% 
+  summarise(allMinors = all(age &lt; 18))
+  
+classes %&gt;% 
+  group_by(sex) %&gt;% 
+  summarise(someBBallHope = any(height &gt;= 6*12))</code></pre>
+</div>
