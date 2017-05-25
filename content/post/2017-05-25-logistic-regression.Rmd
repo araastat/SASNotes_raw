@@ -1,0 +1,11 @@
+---
+title: Logistic regression
+author: Abhijit
+date: '2017-05-25'
+slug: logistic-regression
+categories:
+  - SAS
+---
+
+One of the different things in SAS is that when we're doing logistic regression 
+using `PROC LOGISTIC`, what is modeled is the opposite of what R does. If we're modeling a binary variable Y, R models Y=1 while SAS models Y=0, which means the odds ratios are reversed. 
