@@ -1,0 +1,28 @@
+---
+title: Restricted cubic splines
+author: Abhijit
+date: '2017-05-31'
+slug: restricted-cubic-splines
+categories:
+  - SAS
+---
+
+<!-- BLOGDOWN-HEAD -->
+<!-- /BLOGDOWN-HEAD -->
+
+<!-- BLOGDOWN-BODY-BEFORE -->
+<!-- /BLOGDOWN-BODY-BEFORE -->
+<p>Restricted cubic splines are a common flexible way to incorporate nonlinear effects into regression models. The usual way I’d use it in R is to use <code>rms::rcs</code>.</p>
+<p>In SAS it is now much easier to implement restricted cubic splines within models. At least in many procs there is now an EFFECT statement. For example, Rick Wicklin provides an example on <a href="http://blogs.sas.com/content/iml/2017/04/19/restricted-cubic-splines-sas.html">his blog</a>:</p>
+<pre class="sas"><code>proc glmselect data=cars;
+  effect spl = spline(weight / details naturalcubic basis=tpf(noint)                 
+                               knotmethod=percentiles(5) );
+   model mpg_city = spl / selection=none;         /* fit model by using spline effects */
+   output out=SplineOut predicted=Fit;            /* output predicted values for graphing */
+quit;
+ 
+title &quot;Restricted Cubic Spline Regression&quot;;
+proc sgplot data=SplineOut noautolegend;
+   scatter x=weight y=mpg_city;
+   series x=weight y=Fit / lineattrs=(thickness=3 color=red);
+run;</code></pre>
